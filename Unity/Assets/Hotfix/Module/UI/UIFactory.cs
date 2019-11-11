@@ -1,18 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ETModel;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace ETHotfix {
     public static class UIFactory {
-        
-        public static UI Create(string uiType) {
-            try {
-                ResourcesComponent resourcesComponent = ETModel.Game.Scene.GetComponent<ResourcesComponent>();
-                resourcesComponent.LoadBundle(uiType.StringToAB());
-                GameObject bundleGameObject = (GameObject)resourcesComponent.GetAsset(uiType.StringToAB(), uiType);
-                GameObject gameObject = UnityEngine.Object.Instantiate(bundleGameObject);
 
-                UI ui = ComponentFactory.Create<UI, string, GameObject>(uiType, gameObject, false);
+        public static async ETTask<UI> Create(string uiType) {
+            try {
+                var gameObject = await Addressables.InstantiateAsync(uiType).Task;
+                var ui = ComponentFactory.Create<UI, string, GameObject>(uiType, gameObject, false);
                 return ui;
             }
             catch (Exception e) {

@@ -2,12 +2,22 @@
     "name": "Unity.Editor",
     "references": [
         "Unity.Model",
-        "Unity.ThirdParty"
+        "Unity.ThirdParty",
+        "Unity.Addressables.Editor",
+        "Unity.ResourceManager",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor.Tests",
+        "Unity.Addressables.Tests",
+        "Unity.AssetBundleBrowser.Editor"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
     "excludePlatforms": [],
-    "allowUnsafeCode": true
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
 }

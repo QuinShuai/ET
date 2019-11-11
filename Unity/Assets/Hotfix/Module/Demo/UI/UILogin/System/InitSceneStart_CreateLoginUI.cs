@@ -1,14 +1,13 @@
 ﻿using ETModel;
 
-namespace ETHotfix
-{
-	[Event(EventIdType.InitSceneStart)]
-	public class InitSceneStart_CreateLoginUI: AEvent
-	{
-		public override void Run()
-		{
-			UI ui = UILoginFactory.Create();
-			Game.Scene.GetComponent<UIComponent>().Add(ui);
-		}
-	}
+namespace ETHotfix {
+    [Event(EventIdType.InitSceneStart)]
+    public class InitSceneStart_CreateLoginUI : AEvent {
+        public override void Run() {
+            var t = UILoginFactory.Create().GetAwaiter();
+            t.OnCompleted(() => {
+                Game.Scene.GetComponent<UIComponent>().Add(t.GetResult());
+            });
+        }
+    }
 }
