@@ -60,6 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Hotfix\Base\ByteBuffer.cs" />
+    <Compile Include="Assets\Hotfix\Base\Config\ACategory.cs" />
+    <Compile Include="Assets\Hotfix\Base\Config\ConfigComponent.cs" />
+    <Compile Include="Assets\Hotfix\Base\Config\ConfigData.cs" />
+    <Compile Include="Assets\Hotfix\Base\Config\ConfigHelper.cs" />
+    <Compile Include="Assets\Hotfix\Base\Config\IConfig.cs" />
     <Compile Include="Assets\Hotfix\Base\Event\EventIdType.cs" />
     <Compile Include="Assets\Hotfix\Base\Event\IEvent.cs" />
     <Compile Include="Assets\Hotfix\Base\Helper\ArrayHelper.cs" />
@@ -68,6 +74,7 @@
     <Compile Include="Assets\Hotfix\Base\Helper\ExceptionHelper.cs" />
     <Compile Include="Assets\Hotfix\Base\Helper\JsonHelper.cs" />
     <Compile Include="Assets\Hotfix\Base\Log.cs" />
+    <Compile Include="Assets\Hotfix\Base\MemoryDataPackage.cs" />
     <Compile Include="Assets\Hotfix\Base\Object\Component.cs" />
     <Compile Include="Assets\Hotfix\Base\Object\ComponentFactory.cs" />
     <Compile Include="Assets\Hotfix\Base\Object\ComponentWithId.cs" />
@@ -91,11 +98,16 @@
     <Compile Include="Assets\Hotfix\Init.cs" />
     <Compile Include="Assets\Hotfix\Module\Actor\IActorMessage.cs" />
     <Compile Include="Assets\Hotfix\Module\ActorLocation\IActorLocationMessage.cs" />
-    <Compile Include="Assets\Hotfix\Module\Config\ACategory.cs" />
-    <Compile Include="Assets\Hotfix\Module\Config\ConfigComponent.cs" />
-    <Compile Include="Assets\Hotfix\Module\Config\ConfigHelper.cs" />
-    <Compile Include="Assets\Hotfix\Module\Config\IConfig.cs" />
-    <Compile Include="Assets\Hotfix\Module\Demo\Config\UnitConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\AnimationConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\CgConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\ConstantConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\DateConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\NewsConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\SectionConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\TalkConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\TipsConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\TitleConfig.cs" />
+    <Compile Include="Assets\Hotfix\Module\Config\UnitConfig.cs" />
     <Compile Include="Assets\Hotfix\Module\Demo\G2C_TestHotfixHandler.cs" />
     <Compile Include="Assets\Hotfix\Module\Demo\Helper\LoginHelper.cs" />
     <Compile Include="Assets\Hotfix\Module\Demo\Helper\MapHelper.cs" />
@@ -398,6 +410,15 @@
     </Reference>
     <Reference Include="NPOI.OpenXmlFormats">
       <HintPath>D:/GitHub/ET/Unity/Assets/Plugins/Editor/npoi/NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel">
+      <HintPath>D:/GitHub/ET/Unity/Assets/Plugins/Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>D:/GitHub/ET/Unity/Assets/Plugins/EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.unity">
+      <HintPath>D:/GitHub/ET/Unity/Assets/Plugins/zxing.unity.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/program files/2018.4.12f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

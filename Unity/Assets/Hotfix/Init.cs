@@ -33,8 +33,8 @@ namespace ETHotfix
 				// 加载热更配置
 				Game.Scene.AddComponent<ConfigComponent>();
 
-				UnitConfig unitConfig = (UnitConfig)Game.Scene.GetComponent<ConfigComponent>().Get(typeof(UnitConfig), 1001);
-				Log.Debug($"config {JsonHelper.ToJson(unitConfig)}");
+				//UnitConfig unitConfig = (UnitConfig)Game.Scene.GetComponent<ConfigComponent>().Get(typeof(UnitConfig), 1001);
+				//Log.Debug($"config {JsonHelper.ToJson(unitConfig)}");
 
 				Game.EventSystem.Run(EventIdType.InitSceneStart);
 			}

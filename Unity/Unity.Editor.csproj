@@ -84,6 +84,7 @@
     <Compile Include="Assets\Editor\BuildEditor\BuildEditor.cs" />
     <Compile Include="Assets\Editor\BuildEditor\BuildHelper.cs" />
     <Compile Include="Assets\Editor\BuildEditor\BuildHotfixEditor.cs" />
+    <Compile Include="Assets\Editor\BuildEditor\GenerateConfig.cs" />
     <Compile Include="Assets\Editor\BuildEditor\GenerateUIReferences.cs" />
     <Compile Include="Assets\Editor\BuildEditor\UpdateAddressableFlag.cs" />
     <Compile Include="Assets\Editor\ComponentViewEditor\ComponentViewEditor.cs" />
@@ -398,6 +399,15 @@
     </Reference>
     <Reference Include="NPOI.OpenXmlFormats">
       <HintPath>D:/GitHub/ET/Unity/Assets/Plugins/Editor/npoi/NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel">
+      <HintPath>D:/GitHub/ET/Unity/Assets/Plugins/Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>D:/GitHub/ET/Unity/Assets/Plugins/EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.unity">
+      <HintPath>D:/GitHub/ET/Unity/Assets/Plugins/zxing.unity.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/program files/2018.4.12f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

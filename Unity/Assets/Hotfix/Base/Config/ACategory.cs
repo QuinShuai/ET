@@ -32,7 +32,7 @@ namespace ETHotfix {
                         continue;
                     }
                     T t = ConfigHelper.ToObject<T>(str2);
-                    this.dict.Add(t.Id, t);
+                    //this.dict.Add(t.Id, t);
                 }
                 catch (Exception e) {
                     throw new Exception($"parser json fail: {str}", e);
