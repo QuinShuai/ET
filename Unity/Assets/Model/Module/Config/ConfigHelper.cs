@@ -1,17 +1,17 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace ETModel
 {
 	public static class ConfigHelper
 	{
-		public static string GetText(string key)
+		public static async ETTask<string> GetText(string key)
 		{
 			try
 			{
-				GameObject config = (GameObject)Game.Scene.GetComponent<ResourcesComponent>().GetAsset("config.unity3d", "Config");
-				string configStr = config.Get<TextAsset>(key).text;
-				return configStr;
+                var config = await Addressables.LoadAssetAsync<TextAsset>($"Config/{key}.txt").Task;
+				return config.text;
 			}
 			catch (Exception e)
 			{

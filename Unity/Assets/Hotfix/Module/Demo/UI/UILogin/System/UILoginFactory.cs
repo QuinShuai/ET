@@ -8,7 +8,7 @@ namespace ETHotfix {
 
         public static async ETTask<UI> Create() {
             try {
-                UI ui = await UIFactory.Create("UILogin");
+                UI ui = await UIFactory.Create(UIType.UILogin);
                 ui.AddComponent<UILoginComponent>();
 
                 Game.Scene.GetComponent<UIComponent>().Add(ui);

@@ -7,13 +7,13 @@
 
 	public interface ISupportInitialize
 	{
-		void BeginInit();
+		void BeginInitAsync();
 		void EndInit();
 	}
 
 	public abstract class Object: ISupportInitialize
 	{
-		public virtual void BeginInit()
+		public virtual void BeginInitAsync()
 		{
 		}
 

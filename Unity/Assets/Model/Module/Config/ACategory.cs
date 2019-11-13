@@ -20,11 +20,11 @@ namespace ETModel
 	{
 		protected Dictionary<long, IConfig> dict;
 
-		public override void BeginInit()
+		public override async void BeginInit()
 		{
 			this.dict = new Dictionary<long, IConfig>();
 
-			string configStr = ConfigHelper.GetText(typeof(T).Name);
+			string configStr = await ConfigHelper.GetText(typeof(T).Name);
 
 			foreach (string str in configStr.Split(new[] { "\n" }, StringSplitOptions.None))
 			{
