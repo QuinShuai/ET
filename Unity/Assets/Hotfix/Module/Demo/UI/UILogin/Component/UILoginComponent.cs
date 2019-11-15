@@ -4,33 +4,25 @@ using ETModel;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ETHotfix
-{
-	[ObjectSystem]
-	public class UiLoginComponentSystem : AwakeSystem<UILoginComponent>
-	{
-		public override void Awake(UILoginComponent self)
-		{
-			self.Awake();
-		}
-	}
-	
-	public class UILoginComponent: Component
-	{
-		private GameObject account;
-		private GameObject loginBtn;
+namespace ETHotfix {
+    [ObjectSystem]
+    public class UiLoginComponentSystem : AwakeSystem<UILoginComponent> {
+        public override void Awake(UILoginComponent self) {
+            self.Awake();
+        }
+    }
 
-		public void Awake()
-		{
-			ReferenceCollector rc = this.GetParent<UI>().GameObject.GetComponent<ReferenceCollector>();
-			loginBtn = rc.Get<GameObject>("LoginBtn");
-			loginBtn.GetComponent<Button>().onClick.Add(OnLogin);
-			this.account = rc.Get<GameObject>("Account");
-		}
+    public class UILoginComponent : UIBaseComponent {
+        private GameObject account;
+        private GameObject loginBtn;
 
-		public void OnLogin()
-		{
-			LoginHelper.OnLoginAsync(this.account.GetComponent<InputField>().text).Coroutine();
-		}
-	}
+        public void Awake() {
+            AddOnClickEvent("LoginBtn", this.OnLogin);
+            this.account = FindChild("Account");
+        }
+
+        public void OnLogin(GameObject go) {
+            LoginHelper.OnLoginAsync(this.account.GetComponent<InputField>().text).Coroutine();
+        }
+    }
 }

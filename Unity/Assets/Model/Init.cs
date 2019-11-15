@@ -31,7 +31,7 @@ namespace ETModel {
                 await Game.Hotfix.LoadHotfixAssembly();
                 
                 // 加载配置
-                Game.Scene.AddComponent<ConfigComponent>();
+                //Game.Scene.AddComponent<ConfigComponent>();
                 Game.Scene.AddComponent<OpcodeTypeComponent>();
                 Game.Scene.AddComponent<MessageDispatcherComponent>();
 

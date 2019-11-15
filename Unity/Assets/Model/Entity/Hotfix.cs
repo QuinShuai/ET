@@ -37,10 +37,14 @@ namespace ETModel {
         }
 
         public async ETTask LoadHotfixAssembly() {
-            var code = await Addressables.LoadAssetAsync<GameObject>("Independent/Code.prefab").Task;
+            var size = await Addressables.GetDownloadSizeAsync("Hotfix/Hotfix.dll.bytes").Task;
+            var size2 = await Addressables.GetDownloadSizeAsync("UI/UILobby.prefab").Task;
+            Log.Debug(size.ToString());
+            var dll = await Addressables.LoadAssetAsync<TextAsset>("Hotfix/Hotfix.dll.bytes").Task;
+            var pdb = await Addressables.LoadAssetAsync<TextAsset>("Hotfix/Hotfix.pdb.bytes").Task;
             
-            byte[] assBytes = code.Get<TextAsset>("Hotfix.dll").bytes;
-            byte[] pdbBytes = code.Get<TextAsset>("Hotfix.pdb").bytes;
+            byte[] assBytes = dll.bytes;
+            byte[] pdbBytes = pdb.bytes;
 
 #if ILRuntime
 			Log.Debug($"当前使用的是ILRuntime模式");

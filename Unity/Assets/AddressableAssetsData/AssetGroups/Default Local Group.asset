@@ -17,51 +17,18 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 7e4e1c38e6f52984c8d47e651436d3c8
   m_SerializeEntries:
-  - m_GUID: 1e0d98e9a3247774ba39f9f14e0139ae
-    m_Address: 1009.jpg
+  - m_GUID: 9e27b0bdab1ad7242a009899d15c0e67
+    m_Address: Unit/Skeleton.prefab
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
-  - m_GUID: 21b62c97577c5c24d9a5621cb2b99350
-    m_Address: 1003.jpg
+    m_SerializedLabels: []
+  - m_GUID: ae44b218243cfc347af99a6875e9e11c
+    m_Address: Hotfix/Hotfix.dll.bytes
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
-  - m_GUID: 378d65a3ace9efd4b9826431d66243a5
-    m_Address: begin.jpg
+    m_SerializedLabels: []
+  - m_GUID: dd08ff64f788e7a4ba0f918632ff8d0f
+    m_Address: Hotfix/Hotfix.pdb.bytes
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
-  - m_GUID: 3b43dd0baf9d83c4894a9b47b019a45b
-    m_Address: Independent/Code.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
-  - m_GUID: 4dc822da3f2217c40a33f4d87edf8cc2
-    m_Address: black.jpg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
-  - m_GUID: 523d0946d9a4ec545a86601bce8439eb
-    m_Address: CyberPunk.xlsx
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
-  - m_GUID: 59151e2fab0f8f645bac00178f4344ac
-    m_Address: Independent/Config.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
-  - m_GUID: c538466f610047044a29a54c00bcdfa9
-    m_Address: 0913.jpg
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
-  - m_GUID: cfaf4529ce2243c4c85126e9d008897b
-    m_Address: Unit/Unit.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MyLabel
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8bc79fd0b550e4d4989c544ba4151df0, type: 2}
   m_SchemaSet:

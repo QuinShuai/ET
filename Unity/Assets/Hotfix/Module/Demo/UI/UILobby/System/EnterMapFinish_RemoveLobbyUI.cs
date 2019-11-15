@@ -7,7 +7,7 @@ namespace ETHotfix
 	{
 		public override void Run()
 		{
-			//Game.Scene.GetComponent<UIComponent>().Remove(UIType.UILobby);
+			Game.Scene.GetComponent<UIComponent>().Remove(UIType.UILobby);
 			//ETModel.Game.Scene.GetComponent<ResourcesComponent>().UnloadBundle(UIType.UILobby.StringToAB());
 		}
 	}

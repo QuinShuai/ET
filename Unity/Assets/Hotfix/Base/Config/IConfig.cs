@@ -7,6 +7,6 @@
         string ConfigFileName {
             get;
         }
-        void Deserialize(byte[] json);
+        void Deserialize(string json);
     }
 }

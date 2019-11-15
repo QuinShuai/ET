@@ -16,12 +16,12 @@ public static class GenerateConfig {
     private static string ModelPath = Application.dataPath + "/Hotfix/Base/Config/";
     private static string ConfigFilePath = Application.dataPath + "/Bundles/Configs/";
     private static string ConfigClassPath = Application.dataPath + "/Hotfix/Module/Config/";
-    
+
     [MenuItem("Tools/清除Progress", false, 101)]
     private static void ClearProgress() {
         EditorUtility.ClearProgressBar();
     }
-    
+
     [MenuItem("Tools/生成配置文件", false, 100)]
     private static void GenerateConfigFile() {
         try {
@@ -111,40 +111,53 @@ public static class GenerateConfig {
 
     private static void GenerateConfigDataFile(List<string> configs) {
         var file = new StringBuilder();
+        file.AppendLine("using System;");
         file.AppendLine("using System.Collections.Generic;");
-        //file.AppendLine("using GF.Unity;");
         file.AppendLine("using System.Linq;");
+        file.AppendLine("using ETModel;");
+        file.AppendLine("using UnityEngine;");
+        file.AppendLine("using UnityEngine.AddressableAssets;");
         file.AppendLine("");
         file.AppendLine("namespace ETHotfix {");
-        file.AppendLine($"public class ConfigData " + "{");
+        file.AppendLine("    [ObjectSystem]");
+        file.AppendLine("    public class ConfigComponentAwakeSystem : AwakeSystem<ConfigComponent> {");
+        file.AppendLine("        public override void Awake(ConfigComponent self) {");
+        file.AppendLine("            self.Awake();");
+        file.AppendLine("        }");
+        file.AppendLine("    }");
+        file.AppendLine("");
+        file.AppendLine($"    public class ConfigComponent : Component " + "{");
         file.AppendLine("");
         for (var i = 0; i < configs.Count; i++) {
-            file.AppendLine($"    public {configs[i]} {configs[i]} " + "{ get; }");
+            file.AppendLine($"        public {configs[i]} {configs[i]} " + "{ get; private set; }");
         }
         file.AppendLine("");
-        file.AppendLine($"    private Dictionary<string, IConfig> _configs;");
-        file.AppendLine($"    public List<IConfig> Configs => _configs.Values.ToList();");
+        file.AppendLine($"        private Dictionary<string, IConfig> _configs;");
+        file.AppendLine($"        public List<IConfig> Configs => _configs.Values.ToList();");
         file.AppendLine("");
-        file.AppendLine($"    public ConfigData() " + "{");
-        file.AppendLine($"        _configs = new Dictionary<string, IConfig>();");
+        file.AppendLine($"        public void Awake() " + "{");
+        file.AppendLine($"            _configs = new Dictionary<string, IConfig>();");
         for (var i = 0; i < configs.Count; i++) {
             file.AppendLine("");
-            file.AppendLine($"        {configs[i]} = new {configs[i]}();");
-            file.AppendLine($"        _configs.Add({configs[i]}.ConfigFileName.ToLower(), {configs[i]});");
+            file.AppendLine($"            {configs[i]} = new {configs[i]}();");
+            file.AppendLine($"            _configs.Add({configs[i]}.ConfigFileName.ToLower(), {configs[i]});");
         }
-        file.AppendLine("    }");
-        file.AppendLine("");
-        file.AppendLine($"    public bool Parse(byte[] bytes, string configFileName) " + "{");
-        file.AppendLine($"        if (_configs.ContainsKey(configFileName)) " + "{");
-        file.AppendLine($"            var iConfig = _configs[configFileName];");
-        file.AppendLine($"            iConfig.Deserialize(bytes);");
-        file.AppendLine($"            return true;");
         file.AppendLine("        }");
-        file.AppendLine($"        return false;");
+        file.AppendLine("");
+        file.AppendLine($"        public async ETTask Load() " + "{");
+        file.AppendLine($"            var configs = await Addressables.LoadResourceLocationsAsync(\"Config\").Task;");
+        file.AppendLine($"            foreach (var location in configs) " + "{");
+        file.AppendLine($"                var config = await Addressables.LoadAssetAsync<TextAsset>(location).Task;");
+        file.AppendLine($"                var name = location.PrimaryKey.Replace(\"Configs/\", \"\").Replace(\".txt\", \"\").ToLower();");
+        file.AppendLine($"                if (_configs.ContainsKey(name))" + "{");
+        file.AppendLine($"                    var iConfig = _configs[name];");
+        file.AppendLine($"                    iConfig.Deserialize(config.text);");
+        file.AppendLine($"                " + "}");
+        file.AppendLine("            }");
+        file.AppendLine("        }");
         file.AppendLine("    }");
         file.AppendLine("}");
-        file.AppendLine("}");
-        File.WriteAllText($"{ModelPath}/ConfigData.cs", file.ToString());
+        File.WriteAllText($"{ModelPath}/ConfigComponent.cs", file.ToString());
         AssetDatabase.Refresh();
     }
 
@@ -154,105 +167,103 @@ public static class GenerateConfig {
         file.AppendLine("using System.Text;");
         file.AppendLine("using System.Linq;");
         file.AppendLine("using UnityEngine;");
-        //file.AppendLine("using GF.Unity;");
+        file.AppendLine("using LitJson;");
         file.AppendLine("using System.Collections.Generic;");
         file.AppendLine("using System.Globalization;");
         file.AppendLine("");
         file.AppendLine("namespace ETHotfix {");
-        file.AppendLine($"public class {name}ConfigData " + "{");
+        file.AppendLine($"    public class {name}ConfigData " + "{");
         for (var j = 0; j < fields.Count; j++) {
             var str = fields[j];
             if (string.IsNullOrEmpty(str[0])) {
                 continue;
             }
-            file.AppendLine($"    public {str[0]} {str[1]}; // {str[2]}");
+            file.AppendLine($"        public {str[0]} {str[1]}; // {str[2]}");
         }
-        file.AppendLine("}");
-        file.AppendLine("");
-        file.AppendLine($"public class {name}Config " + ": IConfig {");
-        file.AppendLine($"    private readonly Dictionary<{fields[0][0]}, {name}ConfigData> _datas;");
-        file.AppendLine($"    public List<{name}ConfigData> Datas => _datas.Values.ToList();");
-        file.AppendLine("");
-        file.AppendLine("    public string ConfigFileName { get; }");
-        file.AppendLine("");
-        file.AppendLine($"    public {name}Config() " + "{");
-        file.AppendLine($"        _datas = new Dictionary<{fields[0][0]}, {name}ConfigData>();");
-        file.AppendLine($"        ConfigFileName = \"{name}Config\";");
         file.AppendLine("    }");
         file.AppendLine("");
-        file.AppendLine($"    public void Deserialize(byte[] bytes) " + "{");
-        file.AppendLine($"        _datas.Clear();");
-        file.AppendLine($"        var memoryDataPackage = new MemoryDataPackage(true);");
-        file.AppendLine($"        memoryDataPackage.memoryStream.Write(bytes, 0, bytes.Length);");
-        file.AppendLine($"        memoryDataPackage.Position = 0;");
-        file.AppendLine($"        var rowsCount = memoryDataPackage.ReadInt();");
-        file.AppendLine($"        var columnsCount = memoryDataPackage.ReadInt();");
-        file.AppendLine($"        var tables = new string[rowsCount,columnsCount];");
-        file.AppendLine($"        for (var i = 0; i < rowsCount; i++) " + "{");
-        file.AppendLine($"            for(var index =0;index < columnsCount; index++) " + "{");
-        file.AppendLine($"                tables[i,index] = memoryDataPackage.ReadString();");
+        file.AppendLine($"    public class {name}Config " + ": IConfig {");
+        file.AppendLine($"        private readonly Dictionary<{fields[0][0]}, {name}ConfigData> _datas;");
+        file.AppendLine($"        public List<{name}ConfigData> Datas => _datas.Values.ToList();");
+        file.AppendLine("");
+        file.AppendLine("        public string ConfigFileName { get; }");
+        file.AppendLine("");
+        file.AppendLine($"        public {name}Config() " + "{");
+        file.AppendLine($"            _datas = new Dictionary<{fields[0][0]}, {name}ConfigData>();");
+        file.AppendLine($"            ConfigFileName = \"{name}Config\";");
+        file.AppendLine("        }");
+        file.AppendLine("");
+        file.AppendLine($"        public void Deserialize(string json) " + "{");
+        file.AppendLine($"            _datas.Clear();");
+        file.AppendLine($"            var jsonRoot = JsonMapper.ToObject(json);");
+        file.AppendLine($"            var rowsCount = jsonRoot.Count;");
+        file.AppendLine($"            var columnsCount = jsonRoot[0].Count;");
+        file.AppendLine($"            var tables = new string[rowsCount,columnsCount];");
+        file.AppendLine($"            for (var i = 0; i < rowsCount; i++) " + "{");
+        file.AppendLine($"                for(var index =0;index < columnsCount; index++) " + "{");
+        file.AppendLine($"                    tables[i,index] = jsonRoot[i][index].ToString();");
+        file.AppendLine($"                " + "}");
         file.AppendLine($"            " + "}");
-        file.AppendLine($"        " + "}");
-        file.AppendLine($"        for (var i = 3; i < rowsCount; i++) " + "{");
-        file.AppendLine($"            var data = new {name}ConfigData();");
+        file.AppendLine($"            for (var i = 3; i < rowsCount; i++) " + "{");
+        file.AppendLine($"                var data = new {name}ConfigData();");
         for (var i = 0; i < fields.Count; i++) {
             var str = fields[i];
             if (string.IsNullOrEmpty(str[0])) {
                 continue;
             }
             if (str[0] == "string") {
-                file.AppendLine($"            data.{str[1]} = tables[i, {i}];");
+                file.AppendLine($"                data.{str[1]} = tables[i, {i}];");
             }
             else if (str[0] == "float" || str[0] == "double") {
-                file.AppendLine($"            {str[0]}.TryParse(tables[i, {i}], NumberStyles.Any, CultureInfo.InvariantCulture, out data.{str[1]});");
+                file.AppendLine($"                {str[0]}.TryParse(tables[i, {i}], NumberStyles.Any, CultureInfo.InvariantCulture, out data.{str[1]});");
             }
             else if (str[0].Contains("List")) {
                 file.AppendLine(GetListStr(str, i));
             }
             else {
-                file.AppendLine($"            {str[0]}.TryParse(tables[i, {i}], out data.{str[1]});");
+                file.AppendLine($"                {str[0]}.TryParse(tables[i, {i}], out data.{str[1]});");
             }
         }
-        file.AppendLine($"            if(_datas.ContainsKey(data.{fields[0][1]})) " + "{");
-        file.AppendLine($"                throw new Exception(data.{fields[0][1]} + \"(字典中已存在具有相同Key的元素)\");");
+        file.AppendLine($"                if(_datas.ContainsKey(data.{fields[0][1]})) " + "{");
+        file.AppendLine($"                    throw new Exception(data.{fields[0][1]} + \"(字典中已存在具有相同Key的元素)\");");
+        file.AppendLine("                }");
+        file.AppendLine("                else {");
+        file.AppendLine($"                    _datas.Add(data.{fields[0][1]}, data);");
+        file.AppendLine("                }");
         file.AppendLine("            }");
-        file.AppendLine("            else {");
-        file.AppendLine($"                _datas.Add(data.{fields[0][1]}, data);");
+        file.AppendLine("        }");
+        file.AppendLine("");
+        file.AppendLine($"        public {name}ConfigData GetDataAt({fields[0][0]} {fields[0][1]}) " + "{");
+        file.AppendLine($"            if (_datas.ContainsKey({fields[0][1]})) " + "{");
+        file.AppendLine($"                return _datas[{fields[0][1]}];");
         file.AppendLine("            }");
+        file.AppendLine($"            return null;");
         file.AppendLine("        }");
-        file.AppendLine("    }");
         file.AppendLine("");
-        file.AppendLine($"    public {name}ConfigData GetDataAt({fields[0][0]} {fields[0][1]}) " + "{");
-        file.AppendLine($"        if (_datas.ContainsKey({fields[0][1]})) " + "{");
-        file.AppendLine($"            return _datas[{fields[0][1]}];");
-        file.AppendLine("        }");
-        file.AppendLine($"        return null;");
-        file.AppendLine("    }");
-        file.AppendLine("");
-        file.AppendLine($"    public bool Add({name}ConfigData data) " + "{");
-        file.AppendLine($"        if (_datas.ContainsKey(data.{fields[0][1]})) " + "{");
-        file.AppendLine($"            return false;");
-        file.AppendLine("        }");
-        file.AppendLine($"        _datas.Add(data.{fields[0][1]}, data);");
-        file.AppendLine($"        return true;");
-        file.AppendLine("    }");
-        file.AppendLine("");
-        file.AppendLine($"    public bool Remove({name}ConfigData data) " + "{");
-        file.AppendLine($"        if (!_datas.ContainsKey(data.{fields[0][1]})) " + "{");
-        file.AppendLine($"            return false;");
-        file.AppendLine("        }");
-        file.AppendLine($"        _datas.Remove(data.{fields[0][1]});");
-        file.AppendLine($"        return true;");
-        file.AppendLine("    }");
-        file.AppendLine("");
-        file.AppendLine($"    public bool RemoveAt({fields[0][0]} {fields[0][1]}) " + "{");
-        file.AppendLine($"        if (_datas.ContainsKey({fields[0][1]})) " + "{");
-        file.AppendLine($"            _datas.Remove({fields[0][1]});");
+        file.AppendLine($"        public bool Add({name}ConfigData data) " + "{");
+        file.AppendLine($"            if (_datas.ContainsKey(data.{fields[0][1]})) " + "{");
+        file.AppendLine($"                return false;");
+        file.AppendLine("            }");
+        file.AppendLine($"            _datas.Add(data.{fields[0][1]}, data);");
         file.AppendLine($"            return true;");
         file.AppendLine("        }");
-        file.AppendLine($"        return false;");
+        file.AppendLine("");
+        file.AppendLine($"        public bool Remove({name}ConfigData data) " + "{");
+        file.AppendLine($"            if (!_datas.ContainsKey(data.{fields[0][1]})) " + "{");
+        file.AppendLine($"                return false;");
+        file.AppendLine("            }");
+        file.AppendLine($"            _datas.Remove(data.{fields[0][1]});");
+        file.AppendLine($"            return true;");
+        file.AppendLine("        }");
+        file.AppendLine("");
+        file.AppendLine($"        public bool RemoveAt({fields[0][0]} {fields[0][1]}) " + "{");
+        file.AppendLine($"            if (_datas.ContainsKey({fields[0][1]})) " + "{");
+        file.AppendLine($"                _datas.Remove({fields[0][1]});");
+        file.AppendLine($"                return true;");
+        file.AppendLine("            }");
+        file.AppendLine($"            return false;");
+        file.AppendLine("        }");
         file.AppendLine("    }");
-        file.AppendLine("}");
         file.AppendLine("}");
         File.WriteAllText($"{ConfigClassPath}/{name}Config.cs", file.ToString());
         //AssetDatabase.Refresh();
@@ -275,7 +286,7 @@ public static class GenerateConfig {
         }
         return file.ToString();
     }
-    
+
     private static List<string> GetConfigPaths(string path) {
         var result = new List<string>();
         var direction = new DirectoryInfo(path);

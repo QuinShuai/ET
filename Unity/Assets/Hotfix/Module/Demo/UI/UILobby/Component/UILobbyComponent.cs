@@ -10,20 +10,18 @@ namespace ETHotfix {
         }
     }
 
-    public class UILobbyComponent : Component {
+    public class UILobbyComponent : UIBaseComponent {
         private GameObject enterMap;
         private Text text;
 
         public void Awake() {
-            ReferenceCollector rc = this.GetParent<UI>().GameObject.GetComponent<ReferenceCollector>();
 
-            enterMap = rc.Get<GameObject>("EnterMap");
-            enterMap.GetComponent<Button>().onClick.Add(this.EnterMap);
+            AddOnClickEvent("EnterMap", EnterMap);
 
-            this.text = rc.Get<GameObject>("Text").GetComponent<Text>();
+            this.text = FindChild<Text>("Text");
         }
 
-        private void EnterMap() {
+        private void EnterMap(GameObject go) {
             MapHelper.EnterMapAsync().Coroutine();
         }
 

@@ -91,7 +91,8 @@ namespace ETHotfix {
             GameUtility.SetTargetMinPanelDepth(ui.GameObject, needDepth);
         }
 
-        public void Remove(string name) {
+        public void Remove(UIType uiType) {
+            var name = UIResource.GetPanelStr(uiType);
             if (!this.uis.TryGetValue(name, out UI ui)) {
                 return;
             }

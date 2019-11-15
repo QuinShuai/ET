@@ -17,6 +17,7 @@ public class UpdateAddressableFlag {
 
         var group = settings.DefaultGroup;
         var ui = settings.FindGroup("UI");
+        var configs = settings.FindGroup("Configs");
         var guids = AssetDatabase.FindAssets("", new[] { "Assets/Bundles" });
 
         for (int i = 0; i < guids.Length; i++) {
@@ -28,6 +29,10 @@ public class UpdateAddressableFlag {
 
             if (path.Contains("/UI/")) {
                 entry = settings.CreateOrMoveEntry(guids[i], ui, readOnly: false, postEvent: false);
+            }
+            else if (path.Contains("/Configs/")) {
+                entry = settings.CreateOrMoveEntry(guids[i], configs, readOnly: false, postEvent: false);
+                entry.labels.Add("Config");
             }
             else {
                 entry = settings.CreateOrMoveEntry(guids[i], group, readOnly: false, postEvent: false);
