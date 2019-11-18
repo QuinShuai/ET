@@ -37,9 +37,6 @@ namespace ETModel {
         }
 
         public async ETTask LoadHotfixAssembly() {
-            var size = await Addressables.GetDownloadSizeAsync("Hotfix/Hotfix.dll.bytes").Task;
-            var size2 = await Addressables.GetDownloadSizeAsync("UI/UILobby.prefab").Task;
-            Log.Debug(size.ToString());
             var dll = await Addressables.LoadAssetAsync<TextAsset>("Hotfix/Hotfix.dll.bytes").Task;
             var pdb = await Addressables.LoadAssetAsync<TextAsset>("Hotfix/Hotfix.pdb.bytes").Task;
             

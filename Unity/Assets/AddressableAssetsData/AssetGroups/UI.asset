@@ -22,11 +22,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - MyLabel
+    - All
   - m_GUID: d8d87e53d93e234448658c9a801a9967
     m_Address: UI/UILobby.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - MyLabel
+    - All
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8bc79fd0b550e4d4989c544ba4151df0, type: 2}
   m_SchemaSet:

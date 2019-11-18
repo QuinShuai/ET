@@ -22,16 +22,19 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Config
+    - All
   - m_GUID: 78f3a209a7b81ec46a196b52eea7e541
     m_Address: Configs/GlobalProto.txt
     m_ReadOnly: 0
     m_SerializedLabels:
     - Config
+    - All
   - m_GUID: a6b82989ddbc27c49a085154647ae377
     m_Address: Configs/GlobalProto2.txt
     m_ReadOnly: 0
     m_SerializedLabels:
     - Config
+    - All
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8bc79fd0b550e4d4989c544ba4151df0, type: 2}
   m_SchemaSet:

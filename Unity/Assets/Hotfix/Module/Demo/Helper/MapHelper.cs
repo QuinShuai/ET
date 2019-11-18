@@ -10,11 +10,11 @@ namespace ETHotfix
             try
             {
                 // 加载Unit资源
-                ResourcesComponent resourcesComponent = ETModel.Game.Scene.GetComponent<ResourcesComponent>();
-                await resourcesComponent.LoadBundleAsync($"unit.unity3d");
+                //ResourcesComponent resourcesComponent = ETModel.Game.Scene.GetComponent<ResourcesComponent>();
+                //await resourcesComponent.LoadBundleAsync($"unit.unity3d");
 
-                // 加载场景资源
-                await ETModel.Game.Scene.GetComponent<ResourcesComponent>().LoadBundleAsync("map.unity3d");
+                //// 加载场景资源
+                //await ETModel.Game.Scene.GetComponent<ResourcesComponent>().LoadBundleAsync("map.unity3d");
                 // 切换到map场景
                 using (SceneChangeComponent sceneChangeComponent = ETModel.Game.Scene.AddComponent<SceneChangeComponent>())
                 {

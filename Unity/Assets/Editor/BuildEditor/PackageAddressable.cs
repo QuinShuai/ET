@@ -4,19 +4,21 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using Object = System.Object;
 
-public class UpdateAddressableFlag {
+public class PackageAddressable {
 
-    [MenuItem("Tools/添加Addressable标记", false, 200)]
+    [MenuItem("Tools/打包/添加Addressable标记", false, 100)]
     private static void AddAddressableFlag() {
         var entriesAdded = new List<AddressableAssetEntry>();
         var settings = AddressableAssetSettingsDefaultObject.Settings;
 
         var group = settings.DefaultGroup;
         var ui = settings.FindGroup("UI");
+        var hotfix = settings.FindGroup("Hotfix");
         var configs = settings.FindGroup("Configs");
         var guids = AssetDatabase.FindAssets("", new[] { "Assets/Bundles" });
 
@@ -30,6 +32,9 @@ public class UpdateAddressableFlag {
             if (path.Contains("/UI/")) {
                 entry = settings.CreateOrMoveEntry(guids[i], ui, readOnly: false, postEvent: false);
             }
+            else if (path.Contains("/Hotfix/")) {
+                entry = settings.CreateOrMoveEntry(guids[i], hotfix, readOnly: false, postEvent: false);
+            }
             else if (path.Contains("/Configs/")) {
                 entry = settings.CreateOrMoveEntry(guids[i], configs, readOnly: false, postEvent: false);
                 entry.labels.Add("Config");
@@ -37,12 +42,46 @@ public class UpdateAddressableFlag {
             else {
                 entry = settings.CreateOrMoveEntry(guids[i], group, readOnly: false, postEvent: false);
             }
+            entry.labels.Add("All");
 
             entry.address = path.Replace("Assets/Bundles/", "");
             entriesAdded.Add(entry);
         }
         settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entriesAdded, true);
         Debug.Log("标记添加完成");
+    }
+
+    [MenuItem("Tools/打包/Addressable资源重置打包", false, 101)]
+    private static void BuildAddressableReset() {
+        var settings = AddressableAssetSettingsDefaultObject.Settings;
+        for (int i = 0; i < settings.DataBuilders.Count; i++) {
+            var m = settings.GetDataBuilder(i);
+            if (m.CanBuildData<AddressablesPlayerBuildResult>()) {
+                Debug.Log(i + "    " + m.Name);
+                AddressableAssetSettingsDefaultObject.Settings.ActivePlayerDataBuilderIndex = i;
+                AddressableAssetSettings.BuildPlayerContent();
+                Debug.Log("Addressable资源重置打包成功!");
+                return;
+            }
+        }
+    }
+
+    [MenuItem("Tools/打包/Addressable资源更新打包", false, 102)]
+    private static void BuildAddressableUpdate() {
+        string path;
+        switch (Application.platform) {
+            case RuntimePlatform.Android:
+                path = Application.dataPath + "/AddressableAssetsData/Android/addressables_content_state.bin";
+                break;
+            default:
+                path = Application.dataPath + "/AddressableAssetsData/Windows/addressables_content_state.bin";
+                break;
+        }
+        Debug.Log(path);
+        if (!string.IsNullOrEmpty(path)) {
+            ContentUpdateScript.BuildContentUpdate(AddressableAssetSettingsDefaultObject.Settings, path);
+            Debug.Log("Addressable资源更新打包成功!");
+        }
     }
 }
 

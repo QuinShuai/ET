@@ -20,15 +20,8 @@ MonoBehaviour:
   - m_GUID: 9e27b0bdab1ad7242a009899d15c0e67
     m_Address: Unit/Skeleton.prefab
     m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: ae44b218243cfc347af99a6875e9e11c
-    m_Address: Hotfix/Hotfix.dll.bytes
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: dd08ff64f788e7a4ba0f918632ff8d0f
-    m_Address: Hotfix/Hotfix.pdb.bytes
-    m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - All
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8bc79fd0b550e4d4989c544ba4151df0, type: 2}
   m_SchemaSet:

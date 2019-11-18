@@ -86,7 +86,7 @@
     <Compile Include="Assets\Editor\BuildEditor\BuildHotfixEditor.cs" />
     <Compile Include="Assets\Editor\BuildEditor\GenerateConfig.cs" />
     <Compile Include="Assets\Editor\BuildEditor\GenerateUIReferences.cs" />
-    <Compile Include="Assets\Editor\BuildEditor\UpdateAddressableFlag.cs" />
+    <Compile Include="Assets\Editor\BuildEditor\PackageAddressable.cs" />
     <Compile Include="Assets\Editor\ComponentViewEditor\ComponentViewEditor.cs" />
     <Compile Include="Assets\Editor\ComponentViewEditor\Entity\EditorLayout.cs" />
     <Compile Include="Assets\Editor\ComponentViewEditor\Entity\SerializationTypeExtension.cs" />
