@@ -47,6 +47,8 @@ MonoBehaviour:
         m_Value: ServerData/[BuildTarget]
       - m_Id: ca0082dd061d4e34c8c0661e5f8874a4
         m_Value: http://localhost/[BuildTarget]
+      - m_Id: 980d82ca4569b774eb6cffcd099dbf07
+        m_Value: D:/GitHub/ET/Unity/Assets
     - m_InheritedParent: 
       m_Id: 39e10bc628b9f4f4eb3bb3dfe1ddf35a
       m_ProfileName: New Profile
@@ -61,6 +63,8 @@ MonoBehaviour:
         m_Value: ServerData/[BuildTarget]
       - m_Id: ca0082dd061d4e34c8c0661e5f8874a4
         m_Value: http://[PrivateIpAddress_2]:5000/[BuildTarget]
+      - m_Id: 980d82ca4569b774eb6cffcd099dbf07
+        m_Value: https://www.lonergame.site/[BuildTarget]
     m_ProfileEntryNames:
     - m_Id: 10add665c5eea1445a01c0392bbccd20
       m_Name: BuildTarget
@@ -76,6 +80,9 @@ MonoBehaviour:
       m_InlineUsage: 0
     - m_Id: ca0082dd061d4e34c8c0661e5f8874a4
       m_Name: RemoteLoadPath
+      m_InlineUsage: 0
+    - m_Id: 980d82ca4569b774eb6cffcd099dbf07
+      m_Name: "\u5916\u7F51"
       m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:

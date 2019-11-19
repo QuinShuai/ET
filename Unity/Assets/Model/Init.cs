@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -8,6 +9,9 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace ETModel {
     public class Init : MonoBehaviour {
+
+        private AsyncOperationHandle _download;
+
         private void Start() {
             this.StartAsync().Coroutine();
         }
@@ -15,50 +19,54 @@ namespace ETModel {
         private async ETVoid StartAsync() {
             try {
                 SynchronizationContext.SetSynchronizationContext(OneThreadSynchronizationContext.Instance);
-                //var assets = await Addressables.LoadResourceLocationsAsync("All").Task;
-                //foreach (var asset in assets) {
-                //    await Addressables.DownloadDependenciesAsync(asset.PrimaryKey).Task;
-                //    var size = await Addressables.GetDownloadSizeAsync(asset.PrimaryKey).Task;
-                //    Debug.Log(size);
-                //}
-                var download = Addressables.DownloadDependenciesAsync("All");
-                download.Completed += (t) => {
-                    Debug.Log(t + "   " + download);
-                };
-                
-                //while (!download.IsDone || download.Status == AsyncOperationStatus.None) {
-                //    Debug.Log(download.PercentComplete);
-                //    Debug.Log(download.Status);
-                //    Thread.Sleep(1);
-                //}
 
-                //DontDestroyOnLoad(gameObject);
-                //Game.EventSystem.Add(DLLType.Model, typeof(Init).Assembly);
+                Debug.Log("检测更新!");
+                await Download();
 
-                //Game.Scene.AddComponent<TimerComponent>();
-                //Game.Scene.AddComponent<GlobalConfigComponent>();
-                //Game.Scene.AddComponent<NetOuterComponent>();
-                //Game.Scene.AddComponent<ResourcesComponent>();
-                //Game.Scene.AddComponent<PlayerComponent>();
-                //Game.Scene.AddComponent<UnitComponent>();
-                //Game.Scene.AddComponent<UIComponent>();
+                DontDestroyOnLoad(gameObject);
+                Game.EventSystem.Add(DLLType.Model, typeof(Init).Assembly);
 
-                //// 下载ab包
-                ////await BundleHelper.DownloadBundle();
+                Game.Scene.AddComponent<TimerComponent>();
+                Game.Scene.AddComponent<GlobalConfigComponent>();
+                Game.Scene.AddComponent<NetOuterComponent>();
+                Game.Scene.AddComponent<ResourcesComponent>();
+                Game.Scene.AddComponent<PlayerComponent>();
+                Game.Scene.AddComponent<UnitComponent>();
+                Game.Scene.AddComponent<UIComponent>();
 
-                //await Game.Hotfix.LoadHotfixAssembly();
+                // 下载ab包
+                //await BundleHelper.DownloadBundle();
 
-                //// 加载配置
-                ////Game.Scene.AddComponent<ConfigComponent>();
-                //Game.Scene.AddComponent<OpcodeTypeComponent>();
-                //Game.Scene.AddComponent<MessageDispatcherComponent>();
+                await Game.Hotfix.LoadHotfixAssembly();
 
-                //Game.Hotfix.GotoHotfix();
+                // 加载配置
+                //Game.Scene.AddComponent<ConfigComponent>();
+                Game.Scene.AddComponent<OpcodeTypeComponent>();
+                Game.Scene.AddComponent<MessageDispatcherComponent>();
 
-                //Game.EventSystem.Run(EventIdType.TestHotfixSubscribMonoEvent, "TestHotfixSubscribMonoEvent");
+                Game.Hotfix.GotoHotfix();
+
+                Game.EventSystem.Run(EventIdType.TestHotfixSubscribMonoEvent, "TestHotfixSubscribMonoEvent");
             }
             catch (Exception e) {
                 Log.Error(e);
+            }
+        }
+
+        private async ETTask Download() {
+            Debug.Log("开始更新!");
+            _download = Addressables.DownloadDependenciesAsync("All");
+            while (_download.PercentComplete < 1) {
+                await Task.Delay(50);
+                Debug.Log("更新进度: " + _download.PercentComplete.ToString("P"));
+            }
+            if (_download.Status == AsyncOperationStatus.Failed) {
+                Debug.Log("更新失败: " + _download.OperationException);
+                Debug.Log(_download.PercentComplete + "    " + _download.IsDone + "    " + _download.Status + "    " + _download.IsValid() + "    " + _download.OperationException);
+                await Download();
+            }
+            else {
+                Debug.Log("更新完成!");
             }
         }
 
